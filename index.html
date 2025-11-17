@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando com Energia...</title>
+    <style>
+        /* Estilos base (Tema cartoon/amigável) */
+        body {
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+            background-color: #f7fafd; /* Fundo claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* Container do spinner e texto */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Estilo do texto de carregamento/motivação */
+        .loading-text {
+            color: #4169E1; /* Royal Blue */
+            font-size: 1.5em;
+            margin-top: 50px;
+            font-weight: bold;
+            text-align: center;
+            /* Garante que o texto não "pule" ao mudar, definindo uma altura fixa */
+            min-height: 40px; 
+            transition: opacity 0.3s ease-in-out; /* Transição suave ao trocar de frase */
+        }
+
+        /* --- ANIMAÇÃO BOLHAS SALTANTES --- */
+        .bubble-spinner {
+            display: flex;
+            justify-content: space-between;
+            width: 150px; /* Largura total do conjunto de bolhas */
+            height: 50px;
+        }
+
+        .bubble {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            animation: bounce 0.8s infinite ease-in-out alternate;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Sombra para efeito 3D */
+        }
+
+        /* Cores e Delays */
+        .bubble:nth-child(1) {
+            background-color: #7B68EE; /* Azul Violeta Amigável */
+            animation-delay: 0s;
+        }
+        .bubble:nth-child(2) {
+            background-color: #FF6347; /* Laranja/Vermelho (Alerta) */
+            animation-delay: 0.2s;
+        }
+        .bubble:nth-child(3) {
+            background-color: #FFD700; /* Amarelo Dourado (Estudo) */
+            animation-delay: 0.4s;
+        }
+        .bubble:nth-child(4) {
+            background-color: #32CD32; /* Verde Limão (Sucesso) */
+            animation-delay: 0.6s;
+        }
+
+        /* KEYFRAMES */
+        @keyframes bounce {
+            from {
+                transform: translateY(0) scale(1);
+            }
+            to {
+                transform: translateY(-20px) scale(1.1); /* Salto e leve aumento de escala */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="bubble-spinner">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+        <!-- Elemento onde as frases motivacionais serão exibidas -->
+        <p id="motivational-text" class="loading-text">A preparar sua jornada de aprendizado...</p>
+    </div>
+
+    <script>
+        // Lista de frases motivacionais
+        const phrases = [
+            "O aprendizado é o único tesouro que a traça não rói.",
+            "A persistência realiza o impossível. Não desista!",
+            "Seja a mudança que você deseja ver no mundo. Comece agora!",
+            "Cada página virada é um passo em direção ao seu sucesso.",
+            "O futuro pertence àqueles que se preparam hoje.",
+            "A organização é a chave mestra de toda a grande realização."
+        ];
+
+        const textElement = document.getElementById('motivational-text');
+        let currentPhraseIndex = 0;
+        
+        // Coloque o caminho para a sua página principal (ex: 'index.html', ou '/home', ou um URL completo)
+        const TARGET_URL = '/Users/lucas/Desktop/SS/index2.html'; 
+
+        function updatePhrase() {
+            // 1. Inicia a transição: Torna o texto transparente
+            textElement.style.opacity = 0;
+
+            // 2. Aguarda um momento (metade da transição) para mudar o texto
+            setTimeout(() => {
+                currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+                textElement.textContent = phrases[currentPhraseIndex];
+
+                // 3. Completa a transição: Torna o texto visível novamente
+                textElement.style.opacity = 1;
+            }, 300); // 300ms é o tempo definido na transição CSS
+        }
+
+        // Configura o carregamento e o redirecionamento
+        document.addEventListener('DOMContentLoaded', () => {
+            // Define a primeira frase ao carregar
+            textElement.textContent = phrases[0];
+            textElement.style.opacity = 1;
+
+            // Inicia o loop de atualização de frases a cada 4 segundos
+            const phraseInterval = setInterval(updatePhrase, 4000); 
+            
+            // Redireciona após 5 segundos (5000 milissegundos)
+            setTimeout(() => {
+                // Para a mudança de frases antes de redirecionar
+                clearInterval(phraseInterval); 
+                // Redireciona para a URL definida em TARGET_URL
+                window.location.href = TARGET_URL; 
+            }, 5000); 
+        });
+    </script>
+</body>
+</html>
